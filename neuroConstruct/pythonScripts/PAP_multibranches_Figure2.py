@@ -25,7 +25,7 @@ import subprocess
 
 # Load the original project
 projName = "LarkumEtAl2009"
-projFile = File("/Users/matteo/LarkumEtAl2009/neuroConstruct/"+projName+".ncx") #change this to local directory
+projFile = File("../"+projName+".ncx") #change this to local directory
 
 print "Loading project from file: " + projFile.getAbsolutePath()+", exists: "+ str(projFile.exists())
 pm = ProjectManager()
@@ -355,7 +355,7 @@ y=-1
 for sim in refStored:
     y=y+1
     pullSimFilename = "pullsim.sh"
-    path = "/Users/matteo/LarkumEtAl2009/neuroConstruct/"+projName
+    path = "../"+projName
     print "\n------   Checking directory: " + path +"/simulations"+"/"+sim
     pullsimFile = path+"/simulations/"+sim+"/"+pullSimFilename
 
