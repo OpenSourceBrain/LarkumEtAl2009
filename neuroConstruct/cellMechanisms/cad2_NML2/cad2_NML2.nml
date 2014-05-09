@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <neuroml xmlns="http://www.neuroml.org/schema/neuroml2"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2 ../../../../NeuroML2/Schemas/NeuroML2/NeuroML_v2alpha.xsd"
+         xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2 https://raw.githubusercontent.com/NeuroML/NeuroML2/master/Schemas/NeuroML2/NeuroML_v2beta2.xsd"
          id="cad2_NML2">
         
     <notes>NeuroML 2 file containing a single Concentration Model</notes>
 
 
     <concentrationModel id="cad2_NML2" type="concentrationModelLarkumEtAl" restingConc="1e-4 mM" decayConstant="80 ms" shellThickness="0.1 um" ion="ca"/>
+    
+    <!--
+    This is a new, custom ComponentType to handle the calcium mechanism with derivative mechanism:
+   
+DERIVATIVE state {
+
+drive_channel = - (10000) * ica / (2 * FARADAY * depth)
+if (drive_channel <= 0.) { drive_channel = 0. } : cannot pump inward
+
+ca' = drive_channel + (cainf-ca)/taur
+cai = ca
+}
+
+See https://github.com/OpenSourceBrain/LarkumEtAl2009/blob/master/neuroConstruct/cellMechanisms/cad2/cad2.mod
+
+    -->
+    
 
     <ComponentType name="concentrationModelLarkumEtAl" extends="concentrationModel" description="Model of buffering of concentration of specific to Larkum Et Al 2009">
 
@@ -24,16 +41,17 @@
 
         <Text name="species"/> 
 
-        <Behavior>
+        <Dynamics>
 
             <StateVariable name="concentration" exposure="concentration" dimension="concentration"/>
             <StateVariable name="extConcentration" exposure="extConcentration" dimension="concentration"/>
 
             <DerivedVariable name="currDensCa" dimension="currentDensity" value="iCa / surfaceArea"/>
-
-            <DerivedVariable name="drive_channel0" dimension="current" value="currDensCa / (2 * Faraday * shellThickness)"/>
             
-            <DerivedVariable name="drive_channel" dimension="current" value="drive_channel0" valueCondition="drive_channel0 .gt. 0" valueIfFalse="0"/>
+            <ConditionalDerivedVariable name="drive_channel" dimension="current">
+            	<Case condition="currDensCa .gt. 0" value="1000000 * currDensCa / (2 * Faraday * shellThickness)"/>
+            	<Case condition="currDensCa .leq. 0" value="0"/>
+            </ConditionalDerivedVariable>
 
             <TimeDerivative variable="concentration" value="drive_channel - ((concentration - restingConc) / decayConstant)"/>
 
@@ -42,7 +60,7 @@
                 <StateAssignment variable="extConcentration" value="initialExtConcentration"/>
             </OnStart>
 
-        </Behavior>
+        </Dynamics>
 
     </ComponentType>
 
