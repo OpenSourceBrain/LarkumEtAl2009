@@ -25,7 +25,7 @@ import subprocess
 
 # Load the original project
 projName = "LarkumEtAl2009"
-projFile = File("/home/matteo/neuroConstruct/models/"+projName+"/"+projName+".ncx")
+projFile = File("../"+projName+".ncx") #local directory
 
 print "Loading project from file: " + projFile.getAbsolutePath()+", exists: "+ str(projFile.exists())
 pm = ProjectManager()
@@ -57,9 +57,7 @@ if numGenerated > 0:
     myProject.neuronSettings.setCopySimFiles(1) # 1 copies hoc/mod files to PySim_0 etc. and will allow multiple sims to run at once
     myProject.neuronSettings.setGraphicsMode(False) # Run NEURON without GUI
     # Note same network structure will be used for each!  
-    # Change this number to the numbernoise of processors you wish to use on your local machine
-    maxNumSimultaneousSims = 100
-
+    
     #multiple simulation settings:        
     trials = 100
     Nbranches = 28
@@ -70,7 +68,7 @@ if numGenerated > 0:
     Hz = 0.2
     syns = 30 #will run in steps of 3
     
-    prefix = ""#"dur"+str(ms) #string that will be added to the name of the simulations to identify the simulation set    
+    prefix = ""#string that will be added to the name of the simulations to identify the simulation set    
 
     apical_branch = ["apical17","apical18","apical21","apical23","apical24","apical25","apical27","apical28","apical31","apical34","apical35","apical37","apical38","apical44","apical46","apical52","apical53","apical54","apical56","apical57","apical61","apical62","apical65","apical67","apical68","apical69","apical72","apical73"]
     apical_ID =[4460,4571,4793,4961,4994,5225,5477,5526,5990,6221,6274,6523,6542,6972,7462,8026,8044,8088,8324,8468,8685,8800,8966,9137,9160,9186,9592,9639]    
@@ -125,7 +123,7 @@ if numGenerated > 0:
 	  simConfig.setInputs(simInputs)
 	  simConfig.setPlots(simPlots)
           
-	  '''#######################################
+	  #######################################
 	  
 	  simRef = prefix+"syn"+str(synapses)+"c_"+str(t)
 	  print "Simref: "+simRef
@@ -160,7 +158,7 @@ if numGenerated > 0:
 
 	  #####################'''
 	  	  
-	  '''##### Rerunning the same configuration + apicalIClamp 1500 #####
+	  ##### Rerunning the same configuration + apicalIClamp 1500 #####
 	  
 	  simRef = prefix+"syn"+str(synapses)+"C1500_"+str(t)
 	  print "Simref: "+simRef
@@ -199,7 +197,7 @@ if numGenerated > 0:
 
 	  #####################'''
 	  
-	  '''##### Rerunning the same configuration + apicalIClamp 1200 #####
+	  ##### Rerunning the same configuration + apicalIClamp 1200 #####
 	  
 	  simRef = prefix+"syn"+str(synapses)+"C1200_"+str(t)
 	  print "Simref: "+simRef
@@ -238,7 +236,7 @@ if numGenerated > 0:
 
 	  #####################'''
 	  
-	  '''##### Rerunning the same configuration + apicalIClamp 900 #####
+	  ##### Rerunning the same configuration + apicalIClamp 900 #####
 	  
 	  simRef = prefix+"syn"+str(synapses)+"C900_"+str(t)
 	  print "Simref: "+simRef
@@ -284,7 +282,7 @@ if numGenerated > 0:
 	  myProject.simulationParameters.setReference(simRef)
 	  refStored.append(simRef)
 	  
-	  '''##### RUN BLOCK background exc #####
+	  ##### RUN BLOCK background exc #####
 
 	  simInputs.add("AMPAbackground")	  
 	  simConfig.setInputs(simInputs)
@@ -316,7 +314,7 @@ if numGenerated > 0:
 	  
 	  #####################'''
 	  
-	  '''##### Rerunning the same configuration + AMPA 1200 #####
+	  ##### Rerunning the same configuration + AMPA 1200 #####
 	  
 	  simRef = prefix+"syn"+str(synapses)+"AMPA1200_"+str(t)
 	  print "Simref: "+simRef
@@ -355,7 +353,7 @@ if numGenerated > 0:
 	  
 	  #####################'''
 	  
-	  '''##### Rerunning the same configuration + AMPA 900 #####
+	  ##### Rerunning the same configuration + AMPA 900 #####
 	  
 	  simRef = prefix+"syn"+str(synapses)+"AMPA900_"+str(t)
 	  print "Simref: "+simRef
@@ -406,7 +404,7 @@ y=-1
 for sim in refStored:
     y=y+1
     pullSimFilename = "pullsim.sh"
-    path = "/home/matteo/neuroConstruct/models/"+projName
+    path = "../"+projName
     print "\n------   Checking directory: " + path +"/simulations"+"/"+sim
     pullsimFile = path+"/simulations/"+sim+"/"+pullSimFilename
 

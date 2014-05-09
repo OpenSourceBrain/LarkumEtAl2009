@@ -25,7 +25,7 @@ import subprocess
 
 # Load the original project
 projName = "LarkumEtAl2009"
-projFile = File("/home/matteo/neuroConstruct/models/"+projName+"/"+projName+".ncx")
+projFile = File("../"+projName+".ncx") #local directory
 
 print "Loading project from file: " + projFile.getAbsolutePath()+", exists: "+ str(projFile.exists())
 pm = ProjectManager()
@@ -56,12 +56,10 @@ if numGenerated > 0:
     myProject.neuronFileManager.setQuitAfterRun(1) # Remove this line to leave the NEURON sim windows open after finishing
     myProject.neuronSettings.setCopySimFiles(1) # 1 copies hoc/mod files to PySim_0 etc. and will allow multiple sims to run at once
     myProject.neuronSettings.setGraphicsMode(False) # Run NEURON without GUI
-    # Note same network structure will be used for each!  
-    # Change this number to the numbernoise of processors you wish to use on your local machine
-    maxNumSimultaneousSims = 100
+    # Note same network structure will be used for each!
 
     #multiple simulation settings:        
-    trials = 100
+    trials = 1
     Nbranches = 28
     Configuration = ["Synchronous Distributed Syn"]
     
@@ -108,7 +106,7 @@ if numGenerated > 0:
 
 	  
 	  stim = myProject.elecInputInfo.getStim("SynchronousDistributed")
-          stim.setDelay(300)     
+	  stim.setDelay(300)     
 	  stim.setDuration(ms)
 	  stim.setRate(Hz)
 	  location = stim.getSegChooser()
@@ -162,7 +160,7 @@ if numGenerated > 0:
 
 	  #####################'''
 	  	  
-	  '''##### Rerunning the same configuration + background exc #####
+	  ##### Rerunning the same configuration + background exc #####
 	  
 	  simRef = prefix+"syn"+str(synapses)+"E1500_"+str(t)
 	  print "Simref: "+simRef
@@ -202,10 +200,12 @@ if numGenerated > 0:
 	  #####################''' 
 	  
 	  
-	  '''########  Rerunning the same configuration + background exc1500 /inh150% ###############
+	  ########  Rerunning the same configuration + background exc1500 /inh150% ###############
 
 	  simInputs.add("backgroundExc")
 	  simInputs.add("backgroundInh150")
+	  simInputs.add("NGF")
+
 	  
 	  simConfig.setInputs(simInputs)
 
@@ -215,7 +215,7 @@ if numGenerated > 0:
           
           ##########################################################################################
 	  
-	  simRef = prefix+"syn"+str(synapses)+"EI150pc_"+str(t)
+	  simRef = prefix+"syn"+str(synapses)+"ExcInh_"+str(t)
 	  print "Simref: "+simRef
 	  myProject.simulationParameters.setReference(simRef)
 	  refStored.append(simRef)
@@ -243,6 +243,8 @@ if numGenerated > 0:
 	  
 	  simInputs.remove("backgroundExc")
 	  simInputs.remove("backgroundInh150")
+	  simInputs.remove("NGF")
+
 
 
 	  #####################'''  	 
@@ -259,7 +261,7 @@ y=-1
 for sim in refStored:
     y=y+1
     pullSimFilename = "pullsim.sh"
-    path = "/home/matteo/neuroConstruct/models/"+projName
+    path = "../"+projName
     print "\n------   Checking directory: " + path +"/simulations"+"/"+sim
     pullsimFile = path+"/simulations/"+sim+"/"+pullSimFilename
 

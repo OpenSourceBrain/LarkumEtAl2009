@@ -25,7 +25,7 @@ import subprocess
 
 # Load the original project
 projName = "LarkumEtAl2009"
-projFile = File("/Users/matteo/LarkumEtAl2009/neuroConstruct/"+projName+".ncx") #change this to local directory
+projFile = File("../"+projName+".ncx") #local directory
 
 print "Loading project from file: " + projFile.getAbsolutePath()+", exists: "+ str(projFile.exists())
 pm = ProjectManager()
@@ -60,7 +60,7 @@ if numGenerated > 0:
 
     #multiple simulation settings:    
     prefix = "" #string that will be added to the name of the simulations to identify the simulation set    
-    trials = 2 #set to required number of trials per configuration
+    trials = 1 #set to required number of trials per configuration
     Nbranches = 4 #set to maximum number of simultaneous stimulated branches to explore
     
     Configuration = ["NMDAspike input"]
@@ -274,7 +274,7 @@ y=-1
 for sim in refStored:
     y=y+1
     pullSimFilename = "pullsim.sh"
-    path = "/Users/matteo/LarkumEtAl2009/neuroConstruct/"+projName
+    path = "../"+projName
     print "\n------   Checking directory: " + path +"/simulations"+"/"+sim
     pullsimFile = path+"/simulations/"+sim+"/"+pullSimFilename
 

@@ -152,7 +152,11 @@ Reported problem of Neuron 7 with tables: when the external parameter &quot;vshi
      <object class="ucl.physiol.neuroconstruct.project.packing.RandomCellPackingAdapter"/>
     </void>
     <void method="add">
-     <object class="ucl.physiol.neuroconstruct.project.packing.RandomCellPackingAdapter"/>
+     <object class="ucl.physiol.neuroconstruct.project.packing.RandomCellPackingAdapter">
+      <void property="maxNumberCells">
+       <int>13</int>
+      </void>
+     </object>
     </void>
     <void method="add">
      <object class="ucl.physiol.neuroconstruct.project.packing.RandomCellPackingAdapter"/>
@@ -5670,7 +5674,7 @@ vclampobj2.amp[1]=-60
    <void method="add">
     <object class="ucl.physiol.neuroconstruct.simulation.RandomSpikeTrainExtSettings" id="RandomSpikeTrainExtSettings0">
      <void property="cellGroup">
-      <string>pyr_group</string>
+      <string>pyrCML_group</string>
      </void>
      <void id="NumberGenerator14" property="delay">
       <void class="ucl.physiol.neuroconstruct.utils.NumberGenerator" method="getField">
@@ -5708,7 +5712,7 @@ vclampobj2.amp[1]=-60
       </object>
      </void>
      <void property="reference">
-      <string>SynchrousDistributed</string>
+      <string>SynchronousDistributed</string>
      </void>
      <void property="segChooser">
       <object class="ucl.physiol.neuroconstruct.project.segmentchoice.GroupDistributedSegments">
